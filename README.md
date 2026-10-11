@@ -351,4 +351,4 @@ The exercise also highlights the difference between local network isolation and 
 
 ## 11. Repository
 
-**GitHub:** https://github.com/YOUR-USERNAME/shopfast-ha
+**GitHub:** https://github.com/jubayerdevs/shopfast-ha
