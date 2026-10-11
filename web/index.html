@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ShopFast High Availability</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 100px;
+            background: #f3f6fa;
+        }
+        .card {
+            display: inline-block;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #ccc;
+        }
+        h1 { color: #16794b; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>ShopFast</h1>
+        <h2 id="instance">Instance</h2>
+        <p id="zone">Availability Zone</p>
+        <p>High-Availability Web Service</p>
+    </div>
+
+    <script>
+        fetch('/instance-info')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('instance').textContent =
+                    data.instance;
+                document.getElementById('zone').textContent =
+                    data.zone;
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+services:
+  web-a:
+    image: nginx:alpine
+    container_name: shopfast-web-a
+    environment:
+      INSTANCE_NAME: "Instance 1"
+      ZONE_NAME: "AZ-A"
+    volumes:
+      - ./web/index.html:/usr/share/nginx/html/index.html:ro
+      - ./web/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    networks:
+      - az_a
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 2
+      start_period: 3s
+    restart: unless-stopped
+
+  web-b:
+    image: nginx:alpine
+    container_name: shopfast-web-b
+    environment:
+      INSTANCE_NAME: "Instance 2"
+      ZONE_NAME: "AZ-B"
+    volumes:
+      - ./web/index.html:/usr/share/nginx/html/index.html:ro
+      - ./web/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    networks:
+      - az_b
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health"]
+      interval: 5s
+      timeout: 2s
+      retries: 2
+      start_period: 3s
+    restart: unless-stopped
+
+  load-balancer:
+    image: nginx:alpine
+    container_name: shopfast-lb
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - az_a
+      - az_b
+    depends_on:
+      web-a:
+        condition: service_healthy
+      web-b:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  az_a:
+    name: shopfast-az-a
+    driver: bridge
+  az_b:
+    name: shopfast-az-b
+    driver: bridge
