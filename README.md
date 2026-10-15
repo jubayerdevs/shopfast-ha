@@ -105,11 +105,9 @@ docker compose version
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/shopfast-ha.git
+git clone https://github.com/jubayerdevs/shopfast-ha.git
 cd shopfast-ha
 ```
-
-Replace `YOUR-USERNAME` with your GitHub username.
 
 ### Step 2: Validate the Docker Compose Configuration
 
